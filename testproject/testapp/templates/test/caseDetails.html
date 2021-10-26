@@ -1,0 +1,91 @@
+
+
+<!DOCTYPE html>
+<html>
+   <head>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   </head>
+   <body>
+      <form id="form" method="POST">
+         {% csrf_token %}
+         
+         userName:
+         <br/>
+         <input type="text" id = "userName" name="userName" />
+         <br/>
+         caseId:
+         <br/>
+         <input type="caseId" id = "caseId" name="caseId" />
+         <br/>
+         caseSection:
+         <br/>
+         <input type="caseSection" id = "caseSection" name="caseSection" />
+     
+         <br/>
+         caseDetails:
+         <br/>
+         <input type="caseDetails" id = "caseDetails" name="caseDetails" />
+         <br/>
+         caseType:
+         <br/>
+         <input type="caseType" id = "caseType" name="caseType" />
+         <br/>
+         <input  type="submit" name="submit" value="submit">
+      </form>
+      <div id="output">
+      </div>
+      <script>
+         $('#form').on('submit', function(e){
+             
+         e.preventDefault();
+          var data = {
+            userName : $('#userName').val(),
+            caseId : $('#caseId').val(),
+            caseSection : $('#caseSection').val(),
+            caseDetails : $('#caseDetails').val(),
+            caseType : $('#caseType').val(),
+          }
+          console.log(data);
+         
+           $.ajax({
+                type : "POST", 
+                url: '/test/',
+                data: data,
+                
+                
+                
+                 dataType: "json",
+                  
+                
+                 csrfmiddlewaretoken: '{{ csrf_token }}',
+                success: function(data){
+                    console.log(data);
+                  //alert(data.msg)
+                  if(data.status=="success"){
+                     alert(data.msg)
+                     //window.location.href = '/home';
+                  }else if(data.status=="failure"){
+                     alert(data.msg)
+                  }
+                      
+                  //console.log(data);
+                  //if (data.status!="success")
+                     //alert("Successfull Login")/* response message */
+                     //window.location.href = '/home';
+                },
+         
+                //failure: function(data) {
+                  //alert(data.msg)
+               // }
+         
+         
+            });
+         
+         
+                 });    
+      </script>
+   </body>
+</html>
+
+
+

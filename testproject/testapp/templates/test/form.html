@@ -1,0 +1,59 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form  id ="form" method="post"> 
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit">submit</button>
+    
+    
+    <script>
+        $('#form').on('submit', function(e){
+            
+        e.preventDefault();
+        var data= {
+            name : $('#name').val(),
+        }
+        console.log(data);
+          $.ajax({
+               type : "POST", 
+               url: "{% url 'snippet' %}",
+               data: data,
+               csrfmiddlewaretoken: '{{ csrf_token }}',
+                dataType: "json",
+                 
+               
+               
+               success: function(data){
+                 //alert(data.msg)
+                 console.log(data);
+                 if(data.status=="success"){
+                    alert(data.msg)
+                    window.location.href = '/home';
+                 }else if(data.status=="failure"){
+                    alert(data.msg)
+                 }
+                     
+                
+               },
+        
+               
+        
+        
+           });
+        
+        
+                });    
+     </script>
+  </body>
+</html>
+</form>
+</body>
+</html>

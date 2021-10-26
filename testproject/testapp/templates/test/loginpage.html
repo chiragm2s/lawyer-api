@@ -1,0 +1,69 @@
+
+
+<!DOCTYPE html>
+<html>
+   <head>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   </head>
+   <body>
+      <form id="form" method="POST">
+         {% csrf_token %}
+         
+         email:
+         <br/>
+         <input type="text" id ="email" name="email" />
+         <br/>
+         Password:
+         <br/>
+         <input type="password" id = "password" name="password" />
+         <br/>
+         <input  type="submit" name="submit" value="submit">
+      </form>
+      <div id="output">
+      </div>
+      <script>
+         $('#form').on('submit', function(e){
+             
+         e.preventDefault();
+         
+           $.ajax({
+                type : "POST", 
+                url: "{% url 'loginPage' %}",
+                data: {
+                 email : $('#email').val(),
+                 password : $('#password').val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                 dataType: "json",
+                  
+                },
+                
+                success: function(data){
+                  //alert(data.msg)
+                  if(data.status=="success"){
+                     alert(data.msg)
+                     window.location.href = '/home';
+                  }else if(data.status=="failure"){
+                     alert(data.msg)
+                  }
+                      
+                  //console.log(data);
+                  //if (data.status!="success")
+                     //alert("Successfull Login")/* response message */
+                     //window.location.href = '/home';
+                },
+         
+                //failure: function(data) {
+                  //alert(data.msg)
+               // }
+         
+         
+            });
+         
+         
+                 });    
+      </script>
+   </body>
+</html>
+
+
+

@@ -1,0 +1,66 @@
+{% extends 'register/base.html' %}
+
+{% block content %}
+
+
+{% if error %}
+{{ error }}
+
+<br/>
+<br/>
+{% endif %}
+
+<h1>Login!</h1>
+
+<form method = "POST" id= "form">
+   {% csrf_token %}
+    email:
+    <br/>
+    <input type="text" name="email" />
+    <br/>
+    Password:
+    <br/>
+    <input type="password" name="password" />
+    <br/>
+    <!-- <input class ="btn btn-primary" type="submit" name="submit" value= "Login" /> -->
+    <input class ="btn btn-primary" type="submit" name="submit" value="submit">
+    <br/>
+
+
+
+</form>
+
+ 
+<script>
+         $('#form').on('submit', function(e){
+             
+         e.preventDefault();
+         
+           $.ajax({
+                type : "POST", 
+                url: "{% url 'login1' %}",
+                data: {
+                 email : $('#email').val(),
+                 password : $('#password').val(),
+                 csrfmiddlewaretoken: '{{ csrf_token }}',
+                 dataType: "json",
+         
+                },
+                
+                success: function(data){
+                   $('#output').html(data.msg) /* response message */
+                   window.loaction('/home1')
+                },
+         
+                failure: function() {
+                    
+                }
+         
+         
+            });
+         
+         
+                 });    
+      </script>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+
+
+<!DOCTYPE html>
+<html>
+   <head>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   </head>
+   <body>
+      <form id="form" method="POST">
+         {% csrf_token %}
+         
+         roleName:
+         <br/>
+         <input type="roleName" id = "roleName" name="roleName" />
+         <br/>
+         
+         <input  type="submit" name="submit" value="submit">
+      </form>
+      <div id="output">
+      </div>
+      <script>
+         $('#form').on('submit', function(e){
+             
+         e.preventDefault();
+          var data = {
+            roleName : $('#roleName').val(),
+           
+          }
+          console.log(data);
+         
+           $.ajax({
+                type : "POST", 
+                url: "{% url 'rolespage' %}",
+                data: data,
+                
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                 dataType: "json",
+                  
+                
+                
+                success: function(data){
+                    console.log(data);
+                  //alert(data.msg)
+                  if(data.status=="success"){
+                     alert(data.msg)
+                     //window.location.href = '/home';
+                  }else if(data.status=="failure"){
+                     alert(data.msg)
+                  }
+                      
+                  //console.log(data);
+                  //if (data.status!="success")
+                     //alert("Successfull Login")/* response message */
+                     //window.location.href = '/home';
+                },
+         
+                //failure: function(data) {
+                  //alert(data.msg)
+               // }
+         
+         
+            });
+         
+         
+                 });    
+      </script>
+   </body>
+</html>
+
+
+
